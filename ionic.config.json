@@ -1,0 +1,7 @@
+{
+  "name": "MediScan-AI",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "vue-vite"
+}

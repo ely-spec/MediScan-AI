@@ -1,0 +1,160 @@
+<template>
+  <ion-page>
+    <ion-tabs>
+      <ion-router-outlet></ion-router-outlet>
+
+      <ion-tab-bar slot="bottom" class="mediscan-tab-bar">
+
+        <!-- HOME -->
+        <ion-tab-button tab="home" href="/tabs/home">
+          <ion-icon :icon="homeOutline" />
+          <ion-label>Home</ion-label>
+        </ion-tab-button>
+
+        <!-- MEDICINE -->
+        <ion-tab-button tab="medicine" href="/tabs/medicine">
+          <ion-icon :icon="medicalOutline" />
+          <ion-label>Medicine</ion-label>
+        </ion-tab-button>
+
+        <!-- PRESCRIPTIONS -->
+        <ion-tab-button
+          tab="prescriptions"
+          href="/tabs/prescriptions"
+        >
+          <ion-icon :icon="documentTextOutline" />
+          <ion-label>Prescriptions</ion-label>
+        </ion-tab-button>
+
+        <!-- PROFILE -->
+        <ion-tab-button tab="profile" href="/tabs/profile">
+          <ion-icon :icon="personOutline" />
+          <ion-label>Profile</ion-label>
+        </ion-tab-button>
+
+      </ion-tab-bar>
+    </ion-tabs>
+  </ion-page>
+</template>
+
+<script setup lang="ts">
+import {
+  IonTabBar,
+  IonTabButton,
+  IonTabs,
+  IonLabel,
+  IonIcon,
+  IonPage,
+  IonRouterOutlet
+} from '@ionic/vue';
+
+import {
+  homeOutline,
+  medicalOutline,
+  documentTextOutline,
+  personOutline
+} from 'ionicons/icons';
+</script>
+
+<style scoped>
+.mediscan-tab-bar {
+  --background: rgba(255, 255, 255, 0.98);
+
+  height: 78px;
+
+  border-top: 1px solid #e7efec;
+
+  box-shadow:
+    0 -5px 20px rgba(20, 60, 50, 0.06);
+
+  padding-top: 7px;
+
+  padding-bottom:
+    env(safe-area-inset-bottom);
+}
+
+ion-tab-button {
+  --color: #8b9995;
+  --color-selected: #07966e;
+
+  --background: transparent;
+  --background-focused: transparent;
+
+  --ripple-color:
+    rgba(7, 150, 110, 0.12);
+
+  position: relative;
+
+  font-weight: 600;
+
+  transition:
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+ion-tab-button ion-icon {
+  font-size: 25px;
+
+  margin-bottom: 4px;
+}
+
+ion-tab-button ion-label {
+  font-size: 12px;
+
+  font-weight: 600;
+
+  letter-spacing: 0.1px;
+}
+
+ion-tab-button.tab-selected {
+  --color: #07966e;
+}
+
+ion-tab-button.tab-selected::before {
+  content: '';
+
+  position: absolute;
+
+  top: 0;
+
+  width: 28px;
+  height: 3px;
+
+  border-radius:
+    0 0 5px 5px;
+
+  background: #07966e;
+}
+
+/* TABLET / DESKTOP */
+
+@media (min-width: 768px) {
+  .mediscan-tab-bar {
+    height: 72px;
+  }
+
+  ion-tab-button ion-icon {
+    font-size: 23px;
+  }
+
+  ion-tab-button ion-label {
+    font-size: 12px;
+  }
+}
+
+/* SMALL MOBILE */
+
+@media (max-width: 380px) {
+  .mediscan-tab-bar {
+    height: 72px;
+  }
+
+  ion-tab-button ion-icon {
+    font-size: 22px;
+  }
+
+  ion-tab-button ion-label {
+    font-size: 10px;
+  }
+}
+</style>

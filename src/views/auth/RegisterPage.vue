@@ -4,6 +4,10 @@
       <div class="register-page">
 
         <div class="register-container">
+          <!-- Design-only navigation: existing login route remains unchanged -->
+          <router-link to="/login" class="design-back" aria-label="Back to Sign In">
+            <span aria-hidden="true">‹</span>
+          </router-link>
 
           <!-- LOGO -->
           <div class="brand-section">
@@ -25,7 +29,7 @@
           <!-- REGISTER HEADER -->
           <div class="register-header">
             <h2>Create Account</h2>
-            <p>Enter your information to get started</p>
+            <p>Start your journey to safer medication with MediScan AI.</p>
           </div>
 
           <!-- FORM -->
@@ -127,14 +131,31 @@
               </div>
             </div>
 
+            <!-- Visual password guidance; original validation remains unchanged -->
+            <div class="password-guidance" aria-label="Password requirements">
+              <div class="strength-track">
+                <span :class="{ filled: password.length >= 6 }"></span>
+                <span :class="{ filled: /[A-Za-z]/.test(password) && /[0-9]/.test(password) }"></span>
+                <span :class="{ filled: password.length >= 8 }"></span>
+              </div>
+              <p :class="{ satisfied: password.length >= 6 }">✓ At least 6 characters</p>
+              <p :class="{ satisfied: /[A-Za-z]/.test(password) && /[0-9]/.test(password) }">✓ Include letters and numbers</p>
+              <p :class="{ satisfied: password.length >= 8 }">✓ Use a strong password (8+ characters)</p>
+            </div>
+
             <!-- ERROR -->
             <p v-if="errorMessage" class="error-message">
               {{ errorMessage }}
             </p>
 
+            <!-- SUCCESS -->
+            <p v-if="successMessage" class="success-message" role="status">
+              {{ successMessage }}
+            </p>
+
             <!-- CREATE ACCOUNT BUTTON -->
-            <button type="submit" class="register-button">
-              Create Account
+            <button type="submit" class="register-button" :disabled="isLoading">
+              {{ isLoading ? 'Creating Account...' : 'Create Account' }}
               <ion-icon :icon="arrowForwardOutline"></ion-icon>
             </button>
 
@@ -179,6 +200,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
+import { supabase } from '../../utils/supabase';
 
 import {
   IonPage,
@@ -207,23 +229,25 @@ const showPassword = ref(false);
 const showConfirmPassword = ref(false);
 
 const errorMessage = ref('');
+const successMessage = ref('');
+const isLoading = ref(false);
 
-const handleRegister = () => {
+const handleRegister = async () => {
+  if (isLoading.value) return;
+
   errorMessage.value = '';
+  successMessage.value = '';
 
-  if (
-    !fullName.value ||
-    !email.value ||
-    !password.value ||
-    !confirmPassword.value
-  ) {
+  const name = fullName.value.trim();
+  const userEmail = email.value.trim().toLowerCase();
+
+  if (!name || !userEmail || !password.value || !confirmPassword.value) {
     errorMessage.value = 'Please complete all fields.';
     return;
   }
 
   if (password.value.length < 6) {
-    errorMessage.value =
-      'Password must contain at least 6 characters.';
+    errorMessage.value = 'Password must contain at least 6 characters.';
     return;
   }
 
@@ -232,19 +256,46 @@ const handleRegister = () => {
     return;
   }
 
-  /*
-    TEMPORARY REGISTRATION
+  isLoading.value = true;
 
-    Later, this will be connected to our
-    database / authentication backend.
-  */
+  try {
+    const { data, error } = await supabase.auth.signUp({
+      email: userEmail,
+      password: password.value,
+      options: {
+        data: { full_name: name },
+        emailRedirectTo: `${window.location.origin}/login`
+      }
+    });
 
-  console.log({
-    fullName: fullName.value,
-    email: email.value
-  });
+    if (error) {
+      errorMessage.value = error.message;
+      return;
+    }
 
-  router.push('/login');
+    // Email confirmation is enabled in this project's Supabase settings.
+    if (data.user && !data.session) {
+      successMessage.value =
+        'Please check your email and click the verification link before signing in. If the email does not arrive, check your spam folder.';
+      password.value = '';
+      confirmPassword.value = '';
+      return;
+    }
+
+    if (data.session) {
+      // Handles a future configuration where confirmation is disabled.
+      await router.replace('/tabs/home');
+      return;
+    }
+
+    successMessage.value =
+      'If registration is available for this address, check your email for confirmation instructions.';
+  } catch (err) {
+    errorMessage.value =
+      err instanceof Error ? err.message : 'Registration failed. Please try again.';
+  } finally {
+    isLoading.value = false;
+  }
 };
 </script>
 
@@ -480,6 +531,16 @@ const handleRegister = () => {
   font-size: 13px;
 }
 
+.success-message {
+  margin: 0 0 15px;
+  padding: 12px 13px;
+  border-radius: 10px;
+  background: #e5f8ef;
+  color: #086b4e;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
 /* BUTTON */
 
 .register-button {
@@ -516,7 +577,12 @@ const handleRegister = () => {
   transition: 0.2s ease;
 }
 
-.register-button:hover {
+.register-button:disabled {
+  opacity: 0.7;
+  cursor: wait;
+}
+
+.register-button:hover:not(:disabled) {
   transform: translateY(-1px);
 
   box-shadow:
@@ -643,4 +709,129 @@ const handleRegister = () => {
   }
 
 }
+
+/* ============================================================
+   MediScan AI — 3D Register Visual Layer
+   Original styles and Supabase registration logic retained.
+   Shared decorative artwork has NO fake phone status bar.
+   ============================================================ */
+.register-content {
+  --background: #effaf7;
+}
+.register-page {
+  position: relative;
+  isolation: isolate;
+  min-height: 100%;
+  padding: 40px 20px 46px;
+  overflow: hidden;
+  background:
+    linear-gradient(180deg, rgba(250,255,254,.13), rgba(229,249,244,.32)),
+    url('/mediscan/medical-decor-only.webp') center center / cover no-repeat;
+}
+.register-page::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: radial-gradient(ellipse at 50% 44%, rgba(255,255,255,.65), transparent 65%);
+  pointer-events: none;
+}
+.register-container {
+  position: relative;
+  width: 100%;
+  max-width: 420px;
+  padding: 26px 28px 24px;
+  border: 1px solid rgba(255,255,255,.86);
+  border-radius: 30px;
+  background: rgba(255,255,255,.82);
+  box-shadow: 0 20px 65px rgba(12,93,77,.12), inset 0 1px rgba(255,255,255,.95);
+  backdrop-filter: blur(13px);
+  -webkit-backdrop-filter: blur(13px);
+}
+.design-back {
+  width: 37px;
+  height: 37px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 0 16px;
+  border-radius: 50%;
+  background: rgba(218,247,239,.96);
+  color: #075f53;
+  font-size: 31px;
+  line-height: 1;
+  text-decoration: none;
+}
+.design-back:focus-visible { outline: 3px solid #008e78; outline-offset: 3px; }
+/* Original logo markup stays in the file. Register reference has a back-arrow header instead. */
+.brand-section { display: none; }
+.register-header { margin-bottom: 20px; }
+.register-header h2 {
+  font-size: 29px;
+  font-weight: 800;
+  letter-spacing: -.7px;
+  color: #142d39;
+}
+.register-header p {
+  max-width: 300px;
+  font-size: 13px;
+  line-height: 1.55;
+  color: #647b88;
+}
+.form-group { margin-bottom: 15px; }
+.form-group label { margin-bottom: 7px; font-size: 12px; color: #263a48; }
+.input-wrapper {
+  height: 49px;
+  border-radius: 12px;
+  background: rgba(255,255,255,.92);
+  border-color: #e1e9eb;
+}
+.input-icon { font-size: 17px; margin-left: 14px; margin-right: 10px; color: #4f7180; }
+.input-wrapper input { font-size: 13px; min-width: 0; }
+.eye-button { width: 43px; font-size: 18px; }
+.password-guidance { margin: 3px 0 17px; }
+.strength-track { display: flex; gap: 5px; margin: 0 0 9px; }
+.strength-track span {
+  height: 4px;
+  flex: 1;
+  border-radius: 20px;
+  background: #e3e9e9;
+}
+.strength-track span.filled { background: linear-gradient(90deg,#00765f,#17bfa1); }
+.password-guidance p {
+  margin: 4px 0;
+  color: #8a9da2;
+  font-size: 11px;
+  line-height: 1.35;
+}
+.password-guidance p.satisfied { color: #078568; }
+.register-button {
+  height: 52px;
+  margin-top: 5px;
+  border-radius: 14px;
+  background: linear-gradient(105deg,#00594e 0%,#007c6d 55%,#00a98e 100%);
+  box-shadow: 0 12px 23px rgba(0,110,91,.20), inset 0 1px rgba(255,255,255,.2);
+}
+.divider { display: none; }
+.login-section { margin-top: 17px; }
+.login-section p { font-size: 12px; }
+.disclaimer {
+  margin-top: 20px;
+  background: rgba(228,248,242,.65);
+  border: 1px solid rgba(255,255,255,.8);
+}
+@media (max-width: 480px) {
+  .register-page {
+    padding: 22px 15px calc(22px + env(safe-area-inset-bottom));
+    align-items: flex-start;
+  }
+  .register-container { padding: 19px 19px 18px; border-radius: 26px; }
+  .register-header h2 { font-size: 25px; }
+  .form-group { margin-bottom: 13px; }
+  .input-wrapper { height: 47px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .register-button { transition: none; }
+}
+
 </style>

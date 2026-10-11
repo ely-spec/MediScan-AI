@@ -135,7 +135,21 @@
 <script setup lang="ts">
 import { computed, ref, onMounted, onUnmounted } from 'vue';
 import { IonPage, IonContent, IonIcon, alertController, onIonViewWillEnter } from '@ionic/vue';
-import { camera, search, documentText, notifications, person, chevronForward, shieldCheckmarkOutline, medicalOutline, timeOutline, checkmarkCircleOutline } from 'ionicons/icons';
+import {
+  camera,
+  search,
+  documentText,
+  notifications,
+  person,
+  chevronForward,
+  shieldCheckmark,
+  shieldCheckmarkOutline,
+  medicalOutline,
+  timeOutline,
+  checkmarkCircleOutline,
+  storefrontOutline,
+  lockClosedOutline
+} from 'ionicons/icons';
 import { useRouter } from 'vue-router';
 import { supabase } from '../utils/supabase';
 const router = useRouter();

@@ -1,3 +1,4 @@
+
 name: MediScan AI - Build APK
 
 on:
@@ -8,6 +9,7 @@ on:
 jobs:
   build-apk:
     runs-on: ubuntu-latest
+
     permissions:
       contents: read
 
@@ -27,8 +29,14 @@ jobs:
           distribution: temurin
           java-version: '17'
 
-      - name: Setup Android SDK
-        uses: android-actions/setup-android@v3
+      - name: Configure Android SDK
+        shell: bash
+        run: |
+          echo "ANDROID_HOME=$ANDROID_HOME"
+          echo "ANDROID_SDK_ROOT=$ANDROID_HOME" >> "$GITHUB_ENV"
+          test -d "$ANDROID_HOME" || exit 1
+          ls "$ANDROID_HOME/platforms"
+          chmod +x android/gradlew
 
       - name: Install dependencies
         run: npm ci
@@ -44,9 +52,7 @@ jobs:
 
       - name: Build debug APK
         working-directory: android
-        run: |
-          chmod +x ./gradlew
-          ./gradlew assembleDebug --no-daemon
+        run: ./gradlew assembleDebug --no-daemon
 
       - name: Upload installable APK
         uses: actions/upload-artifact@v4

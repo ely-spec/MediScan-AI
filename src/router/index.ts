@@ -1,4 +1,3 @@
-
 import { createRouter, createWebHistory } from '@ionic/vue-router';
 import type { RouteRecordRaw } from 'vue-router';
 
@@ -7,7 +6,14 @@ import TabsPage from '../views/TabsPage.vue';
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
-    redirect: '/login'
+    redirect: '/splash'
+  },
+
+  // SPLASH SCREEN (5-second timer is in SplashPage.vue)
+  {
+    path: '/splash',
+    name: 'Splash',
+    component: () => import('../views/SplashPage.vue')
   },
 
   // AUTH
@@ -22,6 +28,13 @@ const routes: Array<RouteRecordRaw> = [
     name: 'Register',
     component: () => import('../views/auth/RegisterPage.vue')
   },
+
+  // EMAIL VERIFICATION
+{
+  path: '/auth/confirm',
+  name: 'AuthConfirm',
+  component: () => import('../views/AuthConfirmPage.vue')
+},
 
   // SCAN PRESCRIPTION
   {
@@ -90,7 +103,7 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import('../views/MedicinePage.vue')
       },
 
-      // PHARMACY - NEW
+      // PHARMACY
       {
         path: 'pharmacy',
         name: 'Pharmacy',

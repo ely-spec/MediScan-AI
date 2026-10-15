@@ -1,11 +1,6 @@
-
 <template>
   <ion-page>
-    <ion-content
-      :fullscreen="true"
-      :scroll-y="false"
-      class="splash-content"
-    >
+    <ion-content :fullscreen="true" :scroll-y="false" class="splash-content">
       <div class="splash-screen">
         <img
           class="splash-image"
@@ -13,11 +8,7 @@
           alt="MediScan AI Splash"
         />
 
-        <div
-          class="loading-track"
-          role="progressbar"
-          aria-label="Loading MediScan AI"
-        >
+        <div class="loading-track" role="progressbar" aria-label="Loading MediScan AI">
           <div class="loading-progress"></div>
         </div>
       </div>
@@ -31,23 +22,31 @@ import { useRouter } from 'vue-router';
 import { onMounted, onUnmounted } from 'vue';
 
 const router = useRouter();
-
 let splashTimer: ReturnType<typeof setTimeout> | undefined;
+let fallbackTimer: ReturnType<typeof setTimeout> | undefined;
 
 onMounted(() => {
-  splashTimer = setTimeout(async () => {
-    try {
-      await router.replace('/login');
-    } catch (error) {
-      console.error('Splash navigation failed:', error);
-    }
+  splashTimer = setTimeout(() => {
+    // Keep the existing Ionic/Vue navigation. If it fails, use a full
+    // navigation as a fallback instead of leaving the user on the splash.
+    void router.replace('/login').catch((error) => {
+      console.error('Splash router navigation failed:', error);
+      window.location.replace('/login');
+    });
+
+    // A navigation can also remain pending without throwing an error.
+    fallbackTimer = setTimeout(() => {
+      if (router.currentRoute.value.path === '/splash') {
+        console.warn('Splash navigation did not finish; trying direct navigation.');
+        window.location.replace('/login');
+      }
+    }, 2000);
   }, 3000);
 });
 
 onUnmounted(() => {
-  if (splashTimer !== undefined) {
-    clearTimeout(splashTimer);
-  }
+  if (splashTimer !== undefined) clearTimeout(splashTimer);
+  if (fallbackTimer !== undefined) clearTimeout(fallbackTimer);
 });
 </script>
 
@@ -100,12 +99,7 @@ onUnmounted(() => {
 }
 
 @keyframes splash-load {
-  from {
-    width: 0;
-  }
-
-  to {
-    width: 100%;
-  }
+  from { width: 0; }
+  to { width: 100%; }
 }
 </style>

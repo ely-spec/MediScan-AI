@@ -7,7 +7,6 @@
           src="/mediscan/mediscan-splash.png"
           alt="MediScan AI Splash"
         />
-
         <div class="loading-track" role="progressbar" aria-label="Loading MediScan AI">
           <div class="loading-progress"></div>
         </div>
@@ -23,30 +22,27 @@ import { onMounted, onUnmounted } from 'vue';
 
 const router = useRouter();
 let splashTimer: ReturnType<typeof setTimeout> | undefined;
-let fallbackTimer: ReturnType<typeof setTimeout> | undefined;
 
 onMounted(() => {
-  splashTimer = setTimeout(() => {
-    // Keep the existing Ionic/Vue navigation. If it fails, use a full
-    // navigation as a fallback instead of leaving the user on the splash.
-    void router.replace('/login').catch((error) => {
-      console.error('Splash router navigation failed:', error);
-      window.location.replace('/login');
-    });
+  console.info('[Splash] Mounted:', window.location.href);
 
-    // A navigation can also remain pending without throwing an error.
-    fallbackTimer = setTimeout(() => {
-      if (router.currentRoute.value.path === '/splash') {
-        console.warn('Splash navigation did not finish; trying direct navigation.');
-        window.location.replace('/login');
+  splashTimer = setTimeout(async () => {
+    console.info('[Splash] Navigating to /login from:', router.currentRoute.value.fullPath);
+    try {
+      const failure = await router.replace({ name: 'Login' });
+      if (failure) {
+        console.warn('[Splash] Navigation not completed:', failure);
+      } else {
+        console.info('[Splash] Navigation completed:', router.currentRoute.value.fullPath);
       }
-    }, 2000);
+    } catch (error) {
+      console.error('[Splash] Navigation error:', error);
+    }
   }, 3000);
 });
 
 onUnmounted(() => {
   if (splashTimer !== undefined) clearTimeout(splashTimer);
-  if (fallbackTimer !== undefined) clearTimeout(fallbackTimer);
 });
 </script>
 

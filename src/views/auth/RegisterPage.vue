@@ -141,6 +141,22 @@
             <p>or</p>
             <span></span>
           </div>
+          <!-- SOCIAL SIGN UP -->
+          <div class="social-auth-buttons">
+            <button type="button" class="social-auth-button" :disabled="isGoogleLoading || isLoading" @click="handleGoogleSignUp">
+              <svg class="google-mark" viewBox="0 0 48 48" aria-hidden="true">
+                <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+                <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.28 5.48-4.83 7.18l7.73 6C44.36 38.03 46.98 31.88 46.98 24.55z"/>
+                <path fill="#FBBC05" d="M10.53 28.59A14.5 14.5 0 0 1 9.75 24c0-1.59.27-3.13.76-4.59l-7.98-6.19A23.86 23.86 0 0 0 0 24c0 3.87.93 7.52 2.56 10.78l7.97-6.19z"/>
+                <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.9-5.8l-7.73-6c-2.15 1.45-4.92 2.3-8.17 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.97 6.19C6.51 42.62 14.62 48 24 48z"/>
+              </svg>
+              {{ isGoogleLoading ? 'Connecting to Google...' : 'Continue with Google' }}
+            </button>
+            <button type="button" class="social-auth-button apple-button" disabled title="Apple sign-in is not configured yet">
+              <svg viewBox="0 0 24 24" aria-hidden="true" class="apple-mark"><path fill="currentColor" d="M17.05 12.54c.02 2.18 1.91 2.91 1.93 2.92-.02.05-.3 1.05-.99 2.08-.6.89-1.22 1.77-2.2 1.79-.96.02-1.27-.58-2.37-.58-1.1 0-1.45.56-2.36.6-.95.03-1.67-.96-2.27-1.85-1.23-1.78-2.17-5.04-.91-7.24a3.51 3.51 0 0 1 2.96-1.8c.92-.02 1.79.63 2.36.63.57 0 1.64-.78 2.76-.66.47.02 1.79.19 2.64 1.43-.07.05-1.58.92-1.55 2.68zM15.23 6.82c.5-.6.83-1.43.74-2.26-.72.03-1.59.48-2.1 1.08-.46.53-.86 1.37-.75 2.18.8.06 1.62-.41 2.11-1z"/></svg>
+              Continue with Apple
+            </button>
+          </div>
           <!-- LOGIN -->
           <div class="login-section">
             <p>
@@ -167,6 +183,8 @@
 </template>
 <script setup lang="ts">
 import { ref } from 'vue';
+import { Capacitor } from '@capacitor/core';
+import { Browser } from '@capacitor/browser';
 import { useRouter } from 'vue-router';
 import { supabase } from '../../utils/supabase';
 import {
@@ -193,6 +211,33 @@ const showConfirmPassword = ref(false);
 const errorMessage = ref('');
 const successMessage = ref('');
 const isLoading = ref(false);
+const isGoogleLoading = ref(false);
+
+const handleGoogleSignUp = async () => {
+  if (isGoogleLoading.value || isLoading.value) return;
+  errorMessage.value = '';
+  successMessage.value = '';
+  isGoogleLoading.value = true;
+  try {
+    const isNative = Capacitor.isNativePlatform();
+    const redirectTo = isNative
+      ? 'io.ionic.starter://auth/callback'
+      : `${window.location.origin}${window.location.pathname}?flow=google#/auth/confirm`;
+    const { data, error } = await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: { redirectTo, skipBrowserRedirect: isNative },
+    });
+    if (error) throw error;
+    if (isNative) {
+      if (!data.url) throw new Error('Google authorization URL is missing.');
+      await Browser.open({ url: data.url, windowName: '_self' });
+    }
+  } catch (err) {
+    errorMessage.value = err instanceof Error ? err.message : 'Google sign-in failed. Please try again.';
+  } finally {
+    isGoogleLoading.value = false;
+  }
+};
 const handleRegister = async () => {
   if (isLoading.value) return;
   errorMessage.value = '';
@@ -624,7 +669,18 @@ const handleRegister = async () => {
   background: linear-gradient(105deg,#00594e 0%,#007c6d 55%,#00a98e 100%);
   box-shadow: 0 12px 23px rgba(0,110,91,.20), inset 0 1px rgba(255,255,255,.2);
 }
-.divider { display: none; }
+.divider { display: flex; margin: 19px 0 14px; }
+.social-auth-buttons { display: grid; grid-template-columns: 1fr; gap: 10px; }
+.social-auth-button {
+  width: 100%; min-height: 48px; display: flex; align-items: center;
+  justify-content: center; gap: 11px; border-radius: 13px;
+  border: 1px solid #cbded9; background: rgba(255,255,255,.94);
+  color: #18342d; font: 600 13px 'Poppins', sans-serif;
+  cursor: pointer;
+}
+.social-auth-button:disabled { opacity: .58; cursor: not-allowed; }
+.google-mark, .apple-mark { width: 20px; height: 20px; flex: 0 0 20px; }
+.apple-button { background: rgba(247,250,249,.92); }
 .login-section { margin-top: 17px; }
 .login-section p { font-size: 12px; }
 .disclaimer {

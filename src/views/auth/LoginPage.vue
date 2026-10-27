@@ -109,49 +109,6 @@
             </button>
           </form>
 
-          <!-- DIVIDER -->
-
-          <div class="divider">
-            <span></span>
-
-            <p>or continue with</p>
-
-            <span></span>
-          </div>
-
-          <!-- Visual placeholders only: OAuth providers are not configured. -->
-
-          <div
-            class="social-preview"
-            aria-label="Social sign in not yet available"
-          >
-            <button
-              type="button"
-              disabled
-              title="Google sign in coming soon"
-              aria-label="Google sign in not available yet"
-            >
-              <img
-                class="provider-logo"
-                src="/mediscan/google-logo.svg"
-                alt=""
-              />
-            </button>
-
-            <button
-              type="button"
-              disabled
-              title="Apple sign in coming soon"
-              aria-label="Apple sign in not available yet"
-            >
-              <img
-                class="provider-logo apple-logo"
-                src="/mediscan/apple-logo.svg"
-                alt=""
-              />
-            </button>
-          </div>
-
           <!-- REGISTER -->
 
           <div class="signup-section">

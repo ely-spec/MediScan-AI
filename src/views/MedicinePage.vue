@@ -1521,4 +1521,75 @@ onMounted(async () => {
     grid-template-columns: 1fr;
   }
 }
+
+
+/* ============================================================
+   MEDISCAN AI — CONSISTENT MAIN-TAB TYPOGRAPHY
+   Presentation only: no changes to layout, routes, or functions.
+   Keep special brand, feature-label and decorative styles intact.
+   ============================================================ */
+.medicine-content {
+  font-family: 'Poppins', sans-serif;
+}
+.medicine-content .page-container,
+.medicine-content button,
+.medicine-content input {
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Page heading and supporting copy */
+.page-header h1 { font-size: 30px; font-weight: 800; line-height: 1.2; }
+.page-header p { font-size: 14px; line-height: 1.5; }
+
+/* Shared section hierarchy */
+.section-title h2 { font-size: 21px; font-weight: 700; line-height: 1.3; }
+.section-title p { font-size: 14px; line-height: 1.5; }
+
+/* Standard card typography */
+.result-info h3,
+.category-card h3,
+.medicine-info h3 { font-size: 17px; font-weight: 600; line-height: 1.4; }
+.result-info p,
+.category-card p,
+.medicine-info p { font-size: 14px; line-height: 1.5; }
+.result-state h3,
+.empty-state h3 { font-size: 17px; font-weight: 600; }
+.result-state p,
+.empty-state p { font-size: 14px; line-height: 1.55; }
+
+/* Actions and fields */
+.search-box input { font-size: 16px; }
+.search-button,
+.scan-button,
+.try-again-button { font-size: 15px; font-weight: 600; }
+.close-results,
+.clear-history,
+.view-result,
+.view-info { font-size: 13px; font-weight: 600; }
+
+/* AI card retains its intentional featured heading */
+.identify-info p { font-size: 14px; line-height: 1.55; }
+.safety-note strong { font-size: 15px; font-weight: 600; }
+.safety-note p { font-size: 13px; line-height: 1.55; }
+
+/* Keep metadata and decorative eyebrow labels visually distinct */
+.result-meta span { font-size: 12px; }
+.result-info .result-label,
+.identify-info .feature-label { font-size: 11px; }
+
+@media (max-width: 700px) {
+  .page-header h1 { font-size: 30px; }
+  .section-title h2 { font-size: 21px; }
+  .page-header p,
+  .section-title p { font-size: 14px; }
+  .category-card { min-width: 0; }
+  .category-card h3,
+  .medicine-info h3,
+  .result-info h3 { overflow-wrap: anywhere; }
+}
+
+@media (max-width: 380px) {
+  /* Keep the existing one-column category layout on narrow screens. */
+  .page-header h1 { font-size: 28px; }
+}
 </style>

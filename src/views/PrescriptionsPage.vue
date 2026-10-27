@@ -470,6 +470,15 @@ onMounted(() => {
 });
 </script>
 <style scoped>
+/* Consistent typography for the Prescriptions tab only */
+.page-container {
+  font-family: 'Poppins', sans-serif;
+}
+.page-container button,
+.page-container input {
+  font-family: inherit;
+}
+
 .prescriptions-content {
   --background: #f6faf9;
 }
@@ -488,7 +497,7 @@ onMounted(() => {
 }
 .page-header h1 {
   margin: 0 0 6px;
-  font-size: 34px;
+  font-size: 30px;
   font-weight: 800;
 }
 .page-header p {
@@ -562,6 +571,8 @@ onMounted(() => {
   gap: 8px;
   cursor: pointer;
   white-space: nowrap;
+
+  font-size: 15px;
 }
 /* STATS */
 .stats-grid {
@@ -610,7 +621,7 @@ onMounted(() => {
   display: block;
   margin-bottom: 5px;
   color: #84908c;
-  font-size: 12px;
+  font-size: 13px;
 }
 .stat-card strong {
   font-size: 23px;
@@ -675,6 +686,8 @@ onMounted(() => {
   justify-content: center;
   gap: 7px;
   cursor: pointer;
+
+  font-size: 15px;
 }
 /* SECTION */
 .prescription-section {
@@ -685,12 +698,12 @@ onMounted(() => {
 }
 .section-heading h2 {
   margin: 0 0 5px;
-  font-size: 22px;
+  font-size: 21px;
 }
 .section-heading p {
   margin: 0;
   color: #84908c;
-  font-size: 13px;
+  font-size: 14px;
 }
 /* PRESCRIPTION CARDS */
 .prescription-list {
@@ -769,7 +782,7 @@ onMounted(() => {
   border-radius: 20px;
   background: #e3f8f1;
   color: #078d68;
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 700;
   display: flex;
   align-items: center;
@@ -777,12 +790,12 @@ onMounted(() => {
 }
 .prescription-info h3 {
   margin: 0 0 5px;
-  font-size: 18px;
+  font-size: 17px;
 }
 .prescription-info > p {
   margin: 0 0 11px;
   color: #7f8c87;
-  font-size: 13px;
+  font-size: 14px;
 }
 .medicine-tags {
   display: flex;
@@ -794,7 +807,7 @@ onMounted(() => {
   border-radius: 8px;
   background: #f0f5f3;
   color: #5e7069;
-  font-size: 10px;
+  font-size: 12px;
 }
 .card-actions {
   display: flex;
@@ -807,7 +820,7 @@ onMounted(() => {
   background: transparent;
   cursor: pointer;
   color: #07966e;
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 700;
   display: flex;
   align-items: center;
@@ -825,7 +838,7 @@ onMounted(() => {
   color: #bf3333;
   border-radius: 10px;
   padding: 9px 12px;
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 700;
   cursor: pointer;
 }
@@ -857,7 +870,7 @@ onMounted(() => {
 .empty-state p {
   margin: 0;
   color: #83908b;
-  font-size: 13px;
+  font-size: 14px;
 }
 /* SAFETY */
 .safety-note {
@@ -874,13 +887,13 @@ onMounted(() => {
   color: #07966e;
 }
 .safety-note strong {
-  font-size: 14px;
+  font-size: 15px;
 }
 .safety-note p {
   margin: 5px 0 0;
   color: #65756f;
   line-height: 1.5;
-  font-size: 12px;
+  font-size: 13px;
 }
 /* MOBILE */
 @media (max-width: 700px) {

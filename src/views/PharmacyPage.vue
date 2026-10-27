@@ -1941,6 +1941,29 @@ onBeforeUnmount(() => {
 </script>
 
 <style scoped>
+/* Consistent typography within the Pharmacy tab only. */
+.pharmacy-page {
+  font-family: 'Poppins', sans-serif;
+  font-size: 15px;
+  line-height: 1.55;
+}
+.pharmacy-page button,
+.pharmacy-page input,
+.pharmacy-page select {
+  font-family: inherit;
+}
+.pharmacy-page .primary-action,
+.pharmacy-page .secondary-action,
+.pharmacy-page .view-tabs button {
+  font-size: 15px;
+}
+.pharmacy-page .chosen-heading strong {
+  font-size: 15px;
+}
+.pharmacy-page .search-input {
+  font-size: 15px;
+}
+
 
 ion-toolbar {
 
@@ -2010,7 +2033,7 @@ ion-content {
 
   margin: 0 0 4px;
 
-  font-size: 22px;
+  font-size: 30px;
 
   font-weight: 800;
 
@@ -2026,7 +2049,7 @@ ion-content {
 
   color: #688078;
 
-  font-size: 13px;
+  font-size: 14px;
 
   line-height: 1.5;
 
@@ -2060,7 +2083,7 @@ ion-button {
 
   color: #456a60;
 
-  font-size: 12px;
+  font-size: 14px;
 
   margin: 15px 0;
 
@@ -2140,7 +2163,7 @@ ion-button {
 
 .section-heading h2 {
 
-  font-size: 18px;
+  font-size: 21px;
 
   margin: 0;
 
@@ -2166,7 +2189,7 @@ select,
 
 .section-heading select {
 
-  font-size: 12px;
+  font-size: 14px;
 
 }
 
@@ -2202,7 +2225,7 @@ select,
 
   margin: 0 0 8px;
 
-  font-size: 16px;
+  font-size: 17px;
 
   font-weight: 650;
 
@@ -2214,7 +2237,7 @@ select,
 
   color: #688078;
 
-  font-size: 12px;
+  font-size: 14px;
 
 }
 
@@ -2232,7 +2255,7 @@ select,
 
   color: #007d63;
 
-  font-size: 13px;
+  font-size: 14px;
 
   font-weight: 750;
 
@@ -2298,7 +2321,7 @@ select,
 
   gap: 12px;
 
-  font-size: 12px;
+  font-size: 14px;
 
   padding: 7px 0;
 
@@ -2356,7 +2379,7 @@ select,
 
   padding: 10px 12px;
 
-  font-size: 12px;
+  font-size: 14px;
 
   font-weight: 750;
 
@@ -2386,7 +2409,7 @@ select,
 
   margin: 0 0 4px;
 
-  font-size: 16px;
+  font-size: 21px;
 
 }
 
@@ -2440,7 +2463,7 @@ select,
 
   margin: 0 0 6px;
 
-  font-size: 19px;
+  font-size: 21px;
 
 }
 
@@ -2506,7 +2529,7 @@ select,
 
 .medicine-option strong {
 
-  font-size: 13px;
+  font-size: 15px;
 
 }
 
@@ -2514,7 +2537,7 @@ select,
 
   color: #6a8079;
 
-  font-size: 11px;
+  font-size: 13px;
 
 }
 
@@ -2530,7 +2553,7 @@ select,
 
 .chosen-list h3 {
 
-  font-size: 15px;
+  font-size: 17px;
 
 }
 
@@ -2544,7 +2567,7 @@ select,
 
 .chosen-item > strong {
 
-  font-size: 13px;
+  font-size: 15px;
 
 }
 
@@ -2568,7 +2591,7 @@ select,
 
   min-width: 0;
 
-  font-size: 12px;
+  font-size: 14px;
 
 }
 
@@ -2612,7 +2635,7 @@ select,
 
   color: #687f77;
 
-  font-size: 11px;
+  font-size: 13px;
 
   line-height: 1.6;
 
@@ -2624,7 +2647,7 @@ select,
 
   .hero h1 {
 
-    font-size: 19px;
+    font-size: 28px;
 
   }
 
@@ -2670,7 +2693,7 @@ select,
 
   border-radius: 9px;
 
-  font-size: 12px;
+  font-size: 13px;
 
   font-weight: 750;
 
@@ -2714,7 +2737,7 @@ select,
 
 .medicine-entry h2 {
 
-  font-size: 18px;
+  font-size: 21px;
 
   margin: 0 0 7px;
 
@@ -2726,7 +2749,7 @@ select,
 
   color: #688078;
 
-  font-size: 13px;
+  font-size: 14px;
 
   line-height: 1.5;
 
@@ -2734,7 +2757,7 @@ select,
 
 .section-title {
 
-  font-size: 18px;
+  font-size: 21px;
 
   margin-top: 20px;
 
@@ -2766,7 +2789,7 @@ select,
 
   background: transparent;
 
-  font-size: 12px;
+  font-size: 13px;
 
   cursor: pointer;
 
@@ -2774,7 +2797,7 @@ select,
 
 .compare-section .section-heading h2 {
 
-  font-size: 18px;
+  font-size: 21px;
 
   margin: 0 0 5px;
 
@@ -2930,7 +2953,7 @@ select,
 
   --box-shadow: none;
 
-  font-size: 12px;
+  font-size: 14px;
 
   font-weight: 750;
 
@@ -2950,7 +2973,7 @@ select,
 
   margin: 7px 0 0;
 
-  font-size: 12px;
+  font-size: 13px;
 
   line-height: 1.45;
 
@@ -2969,8 +2992,8 @@ select,
 .pharmacy-hint { margin-top: 14px; }
 
 .prescription-import-note { background: #eaf8f1; border: 1px solid #bfe9d6; border-radius: 14px; padding: 14px; margin: 12px 0; }
-.prescription-import-note strong { color: #007d63; font-size: 14px; }
-.prescription-import-note p { color: #55736a; font-size: 12px; line-height: 1.5; margin: 7px 0 0; }
-.quantity-warning { color: #986000 !important; font-size: 12px; }
+.prescription-import-note strong { color: #007d63; font-size: 15px; }
+.prescription-import-note p { color: #55736a; font-size: 14px; line-height: 1.5; margin: 7px 0 0; }
+.quantity-warning { color: #986000 !important; font-size: 13px; }
 </style>
 

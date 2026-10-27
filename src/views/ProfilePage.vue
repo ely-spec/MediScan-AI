@@ -2077,4 +2077,50 @@ const signOut = async () => {
 .secondary-danger:disabled {
   opacity: 0.5;
 }
+
+/* TYPOGRAPHY CONSISTENCY — main Profile tab only */
+.page-container,
+.page-container button,
+.panel,
+.panel button,
+.panel input {
+  font-family: 'Poppins', sans-serif;
+}
+.page-header h1 { font-size: 30px; font-weight: 800; }
+.page-header p { font-size: 14px; line-height: 1.55; }
+.profile-kicker { font-size: 11px; }
+.profile-info h2 { font-size: clamp(20px, 2.5vw, 27px); font-weight: 700; }
+.profile-info p { font-size: 14px; }
+.verified-badge { font-size: 12px; }
+.edit-button { font-size: 14px; font-weight: 600; }
+.quick-summary strong { font-size: 15px; font-weight: 600; }
+.quick-summary span { font-size: 14px; line-height: 1.5; }
+.section-heading h2 { font-size: 21px; font-weight: 700; }
+.section-heading span { font-size: 11px; }
+.setting-info strong { font-size: 16px; font-weight: 600; }
+.setting-info small { font-size: 14px; line-height: 1.5; }
+.value-chip { font-size: 12px; }
+.medical-note { font-size: 13px; }
+.footer-caption { font-size: 12px; }
+.panel-header h2 { font-size: 22px; }
+.panel-header p { font-size: 14px; }
+.panel-intro, .privacy-item p, .faq-item p { font-size: 14px; }
+.panel-section-title { font-size: 17px; }
+.field-label { font-size: 13px; }
+.field-hint, .info-strip small { font-size: 12px; }
+.primary-action { font-size: 15px; font-weight: 600; }
+.form-input, .read-only-field { font-size: 14px; }
+.security-banner small, .help-hero small { font-size: 13px; }
+.faq-item button strong, .privacy-item strong { font-size: 15px; }
+@media (max-width: 600px) {
+  .page-header h1 { font-size: 30px; }
+  .profile-info h2 { font-size: 21px; }
+  .profile-info p { font-size: 14px; }
+  .profile-kicker { font-size: 10px; }
+  .setting-info strong { font-size: 15px; }
+  .setting-info small { font-size: 13px; }
+  .edit-button { font-size: 12px; }
+  .section-heading h2 { font-size: 21px; }
+}
+
 </style>

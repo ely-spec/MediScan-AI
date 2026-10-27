@@ -66,13 +66,11 @@ import {
 .mediscan-tab-bar {
   --background: #ffffff;
 
-  height: 66px;
-  min-height: 66px;
+  height: 70px;
+  min-height: 70px;
 
   border-top: 1px solid #e7efec;
-
-  box-shadow:
-    0 -4px 16px rgba(20, 60, 50, 0.05);
+  box-shadow: 0 -4px 16px rgba(20, 60, 50, 0.05);
 
   padding-top: 5px;
   padding-bottom: env(safe-area-inset-bottom);
@@ -84,12 +82,11 @@ ion-tab-button {
 
   --background: transparent;
   --background-focused: transparent;
-
   --ripple-color: rgba(7, 150, 110, 0.12);
 
   position: relative;
   min-width: 0;
-
+  font-family: 'Poppins', sans-serif;
   font-weight: 600;
 
   transition:
@@ -98,14 +95,15 @@ ion-tab-button {
 }
 
 ion-tab-button ion-icon {
-  font-size: 22px;
+  font-size: 23px;
   margin-bottom: 3px;
 }
 
 ion-tab-button ion-label {
-  font-size: 10px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 12px;
   font-weight: 600;
-  letter-spacing: 0;
+  letter-spacing: -0.2px;
   white-space: nowrap;
 }
 
@@ -126,35 +124,20 @@ ion-tab-button.tab-selected::before {
   background: #07966e;
 }
 
-/* TABLET / DESKTOP */
-@media (min-width: 768px) {
+/* SMALL MOBILE */
+@media (max-width: 380px) {
   .mediscan-tab-bar {
-    height: 70px;
-    min-height: 70px;
+    height: 68px;
+    min-height: 68px;
   }
 
   ion-tab-button ion-icon {
-    font-size: 23px;
+    font-size: 21px;
   }
 
   ion-tab-button ion-label {
     font-size: 11px;
-  }
-}
-
-/* SMALL MOBILE */
-@media (max-width: 380px) {
-  .mediscan-tab-bar {
-    height: 64px;
-    min-height: 64px;
-  }
-
-  ion-tab-button ion-icon {
-    font-size: 20px;
-  }
-
-  ion-tab-button ion-label {
-    font-size: 9px;
+    letter-spacing: -0.3px;
   }
 }
 </style>

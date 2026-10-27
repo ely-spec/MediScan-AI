@@ -1341,3 +1341,50 @@ button:focus-visible, .profile-circle:focus-visible { outline: 3px solid #26bba0
 @media(max-width:500px) { .top-header { flex-wrap:wrap; } .header-tools { gap:5px; } .live-clock { padding:5px 7px; font-size:10px; } .live-clock small { display:none; } .notification-panel { top:75px; right:12px; } }
 @media(max-width:370px) { .live-clock { font-size:9px; } .welcome-copy h1 { font-size:18px; } }
 </style>
+
+<!-- Shared main-tab typography alignment: presentation only. -->
+<style scoped>
+.home-content {
+  font-family: 'Poppins', sans-serif;
+  font-size: 15px;
+  line-height: 1.5;
+}
+.page-container button,
+.page-container input,
+.page-container textarea {
+  font-family: inherit;
+}
+/* Preserve the distinctive hero and greeting hierarchy. */
+.welcome-eyebrow { font-size: 13px; }
+.welcome-copy h1 { font-size: clamp(20px, 5.2vw, 24px); }
+.welcome-copy p { font-size: 13px; line-height: 1.45; }
+.hero-text h2 { font-size: clamp(21px, 5.5vw, 26px); }
+.hero-text p { font-size: 14px; line-height: 1.5; }
+.hero-cta { font-size: 14px; font-weight: 700; }
+.quick-actions button { font-size: 11px; font-weight: 600; line-height: 1.35; }
+.feature-label { font-size: 19px; }
+.action-info h3 { font-size: 16px; line-height: 1.35; }
+.action-info p { font-size: 13px; line-height: 1.45; }
+.section-heading h2 { font-size: 20px; line-height: 1.3; }
+.section-heading button { font-size: 13px; }
+.summary-tile span { font-size: 13px; line-height: 1.4; }
+.dashboard-empty { font-size: 14px; line-height: 1.5; }
+.dashboard-hint { font-size: 13px; line-height: 1.5; }
+.recent-card span { font-size: 13px; }
+.recent-card h3 { font-size: 16px; line-height: 1.4; }
+.recent-card p { font-size: 14px; line-height: 1.45; }
+.medical-note { font-size: 13px; line-height: 1.5; }
+.notification-heading strong { font-size: 16px; }
+.notification-heading button { font-size: 12px; }
+.notification-item strong { font-size: 14px; }
+.notification-item p { font-size: 13px; }
+.notification-footer { font-size: 12px; }
+@media (max-width: 380px) {
+  .quick-actions { gap: 5px; }
+  .quick-actions button { font-size: 10px; }
+  .hero-text p { font-size: 13px; }
+  .hero-cta { font-size: 12px; }
+  .section-heading h2 { font-size: 18px; }
+  .live-clock { font-size: 10px; }
+}
+</style>

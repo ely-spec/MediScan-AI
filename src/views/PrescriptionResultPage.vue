@@ -46,22 +46,16 @@
           </div>
         </section>
         <!-- NO OCR -->
-        <section
-          v-if="!hasDetectedText"
-          class="no-text-card"
-        >
+        <section v-if="!hasDetectedText" class="no-text-card">
           <div class="no-text-icon">
             <ion-icon :icon="alertCircleOutline"></ion-icon>
           </div>
           <h2>No Readable Text Found</h2>
           <p>
-            MediScan could not find readable prescription text.
-            Please scan the prescription again using a clearer image.
+            MediScan could not find readable prescription text. Please scan the
+            prescription again using a clearer image.
           </p>
-          <button
-            class="retry-button"
-            @click="scanAgain"
-          >
+          <button class="retry-button" @click="scanAgain">
             <ion-icon :icon="cameraOutline"></ion-icon>
             Scan Again
           </button>
@@ -76,8 +70,8 @@
               <div>
                 <h2>Text extracted successfully</h2>
                 <p>
-                  Review the detected information below.
-                  You can edit anything that was read incorrectly.
+                  Review the detected information below. You can edit anything
+                  that was read incorrectly.
                 </p>
               </div>
             </div>
@@ -86,7 +80,7 @@
                 <strong>Extraction status</strong>
                 <span>
                   {{ medicines.length }}
-                  {{ medicines.length === 1 ? 'medicine' : 'medicines' }}
+                  {{ medicines.length === 1 ? "medicine" : "medicines" }}
                   identified
                 </span>
               </div>
@@ -97,9 +91,7 @@
                 ></div>
               </div>
               <div class="confidence-footer">
-                <span>
-                  AI-assisted identification
-                </span>
+                <span> AI-assisted identification </span>
                 <strong>{{ overallConfidence }}%</strong>
               </div>
             </div>
@@ -108,25 +100,18 @@
           <section class="medicine-section">
             <div class="medicine-heading">
               <div>
-                <span class="eyebrow">
-                  IDENTIFIED FROM OCR
-                </span>
+                <span class="eyebrow"> IDENTIFIED FROM OCR </span>
                 <h2>Detected Medicines</h2>
-                <p>
-                  Medicine information identified from the OCR text.
-                </p>
+                <p>Medicine information identified from the OCR text.</p>
               </div>
               <div class="medicine-count">
                 {{ medicines.length }}
-                {{ medicines.length === 1 ? 'medicine' : 'medicines' }}
+                {{ medicines.length === 1 ? "medicine" : "medicines" }}
                 found
               </div>
             </div>
             <!-- MEDICINES FOUND -->
-            <div
-              v-if="medicines.length > 0"
-              class="medicine-list"
-            >
+            <div v-if="medicines.length > 0" class="medicine-list">
               <article
                 v-for="(medicine, index) in medicines"
                 :key="medicine.id"
@@ -139,7 +124,7 @@
                   <div class="medicine-name">
                     <span>MEDICINE</span>
                     <h3>
-                      {{ medicine.name || 'Unclear medicine name' }}
+                      {{ medicine.name || "Unclear medicine name" }}
                       <template v-if="medicine.strength">
                         {{ medicine.strength }}
                       </template>
@@ -168,7 +153,7 @@
                     <div>
                       <span>Dosage Form</span>
                       <strong>
-                        {{ medicine.dosageForm || 'Needs review' }}
+                        {{ medicine.dosageForm || "Needs review" }}
                       </strong>
                     </div>
                   </div>
@@ -179,7 +164,7 @@
                     <div>
                       <span>Strength</span>
                       <strong>
-                        {{ medicine.strength || 'Needs review' }}
+                        {{ medicine.strength || "Needs review" }}
                       </strong>
                     </div>
                   </div>
@@ -190,7 +175,7 @@
                     <div>
                       <span>Frequency</span>
                       <strong>
-                        {{ medicine.frequency || 'Needs review' }}
+                        {{ medicine.frequency || "Needs review" }}
                       </strong>
                     </div>
                   </div>
@@ -201,25 +186,33 @@
                     <div>
                       <span>Duration</span>
                       <strong>
-                        {{ medicine.duration || '—' }}
+                        {{ medicine.duration || "—" }}
                       </strong>
                     </div>
                   </div>
                   <div class="detail-box">
-                    <div class="detail-icon"><ion-icon :icon="medicalOutline"></ion-icon></div>
-                    <div><span>Prescribed Quantity</span><strong>{{ medicine.quantity ?? 'Not specified' }}</strong></div>
+                    <div class="detail-icon">
+                      <ion-icon :icon="medicalOutline"></ion-icon>
+                    </div>
+                    <div>
+                      <span>Prescribed Quantity</span
+                      ><strong>{{
+                        medicine.quantity ?? "Not specified"
+                      }}</strong>
+                    </div>
                   </div>
                 </div>
-                <div v-if="medicine.quantity == null" class="quantity-review-note">
+                <div
+                  v-if="medicine.quantity == null"
+                  class="quantity-review-note"
+                >
                   Quantity not detected. Check the original prescription and use
-                  <strong>Edit detected information</strong> to enter the prescribed quantity.
-                  Do not estimate from frequency or duration.
+                  <strong>Edit detected information</strong> to enter the
+                  prescribed quantity. Do not estimate from frequency or
+                  duration.
                 </div>
                 <!-- INSTRUCTION -->
-                <div
-                  v-if="medicine.instruction"
-                  class="instruction"
-                >
+                <div v-if="medicine.instruction" class="instruction">
                   <ion-icon :icon="informationCircleOutline"></ion-icon>
                   <div>
                     <span>Prescription Instruction</span>
@@ -227,65 +220,44 @@
                   </div>
                 </div>
                 <!-- EDIT -->
-                <div
-                  v-if="editingMedicine === medicine.id"
-                  class="edit-area"
-                >
+                <div v-if="editingMedicine === medicine.id" class="edit-area">
                   <div class="edit-grid">
                     <label>
                       Medicine Name
-                      <input
-                        v-model="medicine.name"
-                        type="text"
-                      />
+                      <input v-model="medicine.name" type="text" />
                     </label>
                     <label>
                       Strength
-                      <input
-                        v-model="medicine.strength"
-                        type="text"
-                      />
+                      <input v-model="medicine.strength" type="text" />
                     </label>
                     <label>
                       Dosage Form
-                      <input
-                        v-model="medicine.dosageForm"
-                        type="text"
-                      />
+                      <input v-model="medicine.dosageForm" type="text" />
                     </label>
                     <label>
                       Frequency
-                      <input
-                        v-model="medicine.frequency"
-                        type="text"
-                      />
+                      <input v-model="medicine.frequency" type="text" />
                     </label>
                     <label>
                       Duration
-                      <input
-                        v-model="medicine.duration"
-                        type="text"
-                      />
+                      <input v-model="medicine.duration" type="text" />
                     </label>
                     <label>
                       Instruction
-                      <input
-                        v-model="medicine.instruction"
-                        type="text"
-                      />
+                      <input v-model="medicine.instruction" type="text" />
                     </label>
                   </div>
                   <label>
                     Prescribed Quantity (optional)
                     <input
-                        :value="medicine.quantity ?? ''"
-                        @input="updateQuantity(medicine, $event)"
-                        type="number"
-                        min="1"
-                        max="999"
-                        step="1"
-                        placeholder="Enter quantity from Rx"
-                      />
+                      :value="medicine.quantity ?? ''"
+                      @input="updateQuantity(medicine, $event)"
+                      type="number"
+                      min="1"
+                      max="999"
+                      step="1"
+                      placeholder="Enter quantity from Rx"
+                    />
                   </label>
                   <button
                     class="done-edit-button"
@@ -306,10 +278,7 @@
               </article>
             </div>
             <!-- OCR TEXT BUT NO MEDICINES -->
-            <div
-              v-else
-              class="no-medicines"
-            >
+            <div v-else class="no-medicines">
               <ion-icon :icon="alertCircleOutline"></ion-icon>
               <div>
                 <h3>Medicine details need review</h3>
@@ -325,29 +294,20 @@
           <section class="extracted-section">
             <div class="extracted-heading">
               <div>
-                <span class="eyebrow">
-                  OCR REFERENCE
-                </span>
+                <span class="eyebrow"> OCR REFERENCE </span>
                 <h2>Extracted Prescription Text</h2>
               </div>
               <button
                 class="toggle-text-button"
                 @click="showFullText = !showFullText"
               >
-                {{ showFullText ? 'Hide Full Text' : 'View Full Text' }}
+                {{ showFullText ? "Hide Full Text" : "View Full Text" }}
                 <ion-icon
-                  :icon="
-                    showFullText
-                      ? chevronUpOutline
-                      : chevronDownOutline
-                  "
+                  :icon="showFullText ? chevronUpOutline : chevronDownOutline"
                 ></ion-icon>
               </button>
             </div>
-            <div
-              class="raw-text"
-              :class="{ collapsed: !showFullText }"
-            >
+            <div class="raw-text" :class="{ collapsed: !showFullText }">
               {{ ocrText }}
             </div>
           </section>
@@ -369,25 +329,16 @@
           </section>
           <!-- ACTIONS -->
           <section class="actions">
-            <button
-              class="secondary-button"
-              @click="editAllInformation"
-            >
+            <button class="secondary-button" @click="editAllInformation">
               <ion-icon :icon="createOutline"></ion-icon>
               Edit Information
             </button>
-            <button
-              class="primary-button"
-              @click="confirmAndContinue"
-            >
+            <button class="primary-button" @click="confirmAndContinue">
               Confirm and Continue
               <ion-icon :icon="arrowForwardOutline"></ion-icon>
             </button>
           </section>
-          <button
-            class="scan-again-link"
-            @click="scanAgain"
-          >
+          <button class="scan-again-link" @click="scanAgain">
             <ion-icon :icon="cameraOutline"></ion-icon>
             Scan Another Prescription
           </button>
@@ -395,38 +346,73 @@
       </div>
     </ion-content>
     <div v-if="showSavedModal" class="saved-overlay" role="presentation">
-      <section class="saved-dialog" role="dialog" aria-modal="true" aria-labelledby="saved-title">
-        <div class="saved-icon"><ion-icon :icon="checkmarkCircleOutline" /></div>
+      <section
+        class="saved-dialog"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="saved-title"
+      >
+        <div class="saved-icon">
+          <ion-icon :icon="checkmarkCircleOutline" />
+        </div>
         <div class="saved-eyebrow">PRESCRIPTION CONFIRMED</div>
         <h2 id="saved-title">Prescription Saved!</h2>
-        <p class="saved-subtitle">Your reviewed prescription has been saved successfully. Ready to find your medicines?</p>
+        <p class="saved-subtitle">
+          Your reviewed prescription has been saved successfully. Ready to find
+          your medicines?
+        </p>
         <div class="saved-summary">
-          <div class="saved-summary-head"><span>Confirmed medicines</span><strong>{{ medicines.length }}</strong></div>
-          <div v-for="medicine in medicines" :key="medicine.id" class="saved-medicine">
-            <div class="saved-pill-icon"><ion-icon :icon="medicalOutline" /></div>
-            <div class="saved-medicine-info"><strong>{{ medicine.name }} {{ medicine.strength }}</strong><small>{{ medicine.dosageForm || 'Dosage form not specified' }}</small></div>
-            <span class="saved-quantity">{{ medicine.quantity != null ? `Qty ${medicine.quantity}` : 'Qty to verify' }}</span>
+          <div class="saved-summary-head">
+            <span>Confirmed medicines</span
+            ><strong>{{ medicines.length }}</strong>
+          </div>
+          <div
+            v-for="medicine in medicines"
+            :key="medicine.id"
+            class="saved-medicine"
+          >
+            <div class="saved-pill-icon">
+              <ion-icon :icon="medicalOutline" />
+            </div>
+            <div class="saved-medicine-info">
+              <strong>{{ medicine.name }} {{ medicine.strength }}</strong
+              ><small>{{
+                medicine.dosageForm || "Dosage form not specified"
+              }}</small>
+            </div>
+            <span class="saved-quantity">{{
+              medicine.quantity != null
+                ? `Qty ${medicine.quantity}`
+                : "Qty to verify"
+            }}</span>
           </div>
         </div>
-        <p class="saved-note"><ion-icon :icon="informationCircleOutline" /> Pharmacy prices and stock are simulated for demo only. Verify medicines and quantities with a pharmacist.</p>
-        <button class="saved-primary" type="button" @click="finishSavedPrescription(true)">Find Medicines in Pharmacies <ion-icon :icon="arrowForwardOutline" /></button>
-        <button class="saved-secondary" type="button" @click="finishSavedPrescription(false)">View My Prescriptions</button>
+        <p class="saved-note">
+          <ion-icon :icon="informationCircleOutline" /> Pharmacy prices and
+          stock are simulated for demo only. Verify medicines and quantities
+          with a pharmacist.
+        </p>
+        <button
+          class="saved-primary"
+          type="button"
+          @click="finishSavedPrescription(true)"
+        >
+          Find Medicines in Pharmacies <ion-icon :icon="arrowForwardOutline" />
+        </button>
+        <button
+          class="saved-secondary"
+          type="button"
+          @click="finishSavedPrescription(false)"
+        >
+          View My Prescriptions
+        </button>
       </section>
     </div>
   </ion-page>
 </template>
 <script setup lang="ts">
-import {
-  computed,
-  onMounted,
-  ref
-} from 'vue';
-import {
-  IonPage,
-  IonContent,
-  IonIcon,
-  alertController
-} from '@ionic/vue';
+import { computed, onMounted, ref } from "vue";
+import { IonPage, IonContent, IonIcon, alertController } from "@ionic/vue";
 import {
   arrowBackOutline,
   arrowForwardOutline,
@@ -444,37 +430,53 @@ import {
   calendarOutline,
   createOutline,
   chevronDownOutline,
-  chevronUpOutline
-} from 'ionicons/icons';
-import { useRouter } from 'vue-router';
-import { supabase } from '../utils/supabase';
+  chevronUpOutline,
+} from "ionicons/icons";
+import { useRouter } from "vue-router";
+import { supabase } from "../utils/supabase";
 const router = useRouter();
 const showSavedModal = ref(false);
 const savedPrescriptionId = ref<string | null>(null);
 const finishSavedPrescription = (goToPharmacy: boolean) => {
   if (goToPharmacy) {
-    const transfer = medicines.value.map(medicine => ({
-      name: medicine.strength.trim() && !medicine.name.toLowerCase().includes(medicine.strength.trim().toLowerCase())
-        ? `${medicine.name.trim()} ${medicine.strength.trim()}` : medicine.name.trim(),
-      quantity: medicine.quantity != null && Number.isInteger(medicine.quantity) ? medicine.quantity : null
+    const transfer = medicines.value.map((medicine) => ({
+      name:
+        medicine.strength.trim() &&
+        !medicine.name
+          .toLowerCase()
+          .includes(medicine.strength.trim().toLowerCase())
+          ? `${medicine.name.trim()} ${medicine.strength.trim()}`
+          : medicine.name.trim(),
+      quantity:
+        medicine.quantity != null && Number.isInteger(medicine.quantity)
+          ? medicine.quantity
+          : null,
     }));
-    sessionStorage.setItem('mediscan_prescription_pharmacy', JSON.stringify(transfer));
+    sessionStorage.setItem(
+      "mediscan_prescription_pharmacy",
+      JSON.stringify(transfer),
+    );
   } else {
-    sessionStorage.removeItem('mediscan_prescription_pharmacy');
+    sessionStorage.removeItem("mediscan_prescription_pharmacy");
   }
-  for (const key of ['mediscan_ocr_text', 'mediscan_ai_result', 'mediscan_scan_filename', 'mediscan_scan_date', 'mediscan_ocr_method']) {
+  for (const key of [
+    "mediscan_ocr_text",
+    "mediscan_ai_result",
+    "mediscan_scan_filename",
+    "mediscan_scan_date",
+    "mediscan_ocr_method",
+  ]) {
     sessionStorage.removeItem(key);
   }
   showSavedModal.value = false;
-  window.location.replace(goToPharmacy ? '/tabs/pharmacy' : '/tabs/prescriptions');
+  window.location.replace(
+    goToPharmacy ? "/tabs/pharmacy" : "/tabs/prescriptions",
+  );
 };
 /* =========================================
    GEMINI RESULT TYPES
 \========================================= */
-type AIConfidence =
-  | 'high'
-  | 'medium'
-  | 'low';
+type AIConfidence = "high" | "medium" | "low";
 interface AIMedicine {
   name: string | null;
   form: string | null;
@@ -516,33 +518,21 @@ interface Medicine {
 /* =========================================
    PAGE DATA
 \========================================= */
-const ocrText =
-  ref('');
-const fileName =
-  ref('Prescription image');
-const scanDate =
-  ref('Not available');
-const medicines =
-  ref<Medicine[]>([]);
-const editingMedicine =
-  ref<number | null>(null);
-const showFullText =
-  ref(false);
+const ocrText = ref("");
+const fileName = ref("Prescription image");
+const scanDate = ref("Not available");
+const medicines = ref<Medicine[]>([]);
+const editingMedicine = ref<number | null>(null);
+const showFullText = ref(false);
 /* =========================================
    AI METADATA
 \========================================= */
-const prescriptionDetected =
-  ref<boolean | null>(null);
-const patientName =
-  ref('');
-const doctorName =
-  ref('');
-const prescriptionDate =
-  ref('');
-const aiWarnings =
-  ref<string[]>([]);
-const aiResultAvailable =
-  ref(false);
+const prescriptionDetected = ref<boolean | null>(null);
+const patientName = ref("");
+const doctorName = ref("");
+const prescriptionDate = ref("");
+const aiWarnings = ref<string[]>([]);
+const aiResultAvailable = ref(false);
 /* =========================================
    CONFIDENCE CONVERSION
    Gemini returns:
@@ -553,13 +543,11 @@ const aiResultAvailable =
    of the AI reading-confidence category.
    It is NOT medical certainty.
 \========================================= */
-const confidenceToNumber = (
-  confidence: unknown
-): number => {
-  if (confidence === 'high') {
+const confidenceToNumber = (confidence: unknown): number => {
+  if (confidence === "high") {
     return 95;
   }
-  if (confidence === 'medium') {
+  if (confidence === "medium") {
     return 70;
   }
   return 40;
@@ -568,78 +556,39 @@ const confidenceToNumber = (
    NORMALIZE STRING
    Never invent missing information.
 \========================================= */
-const safeString = (
-  value: unknown
-): string => {
-  if (
-    typeof value !== 'string'
-  ) {
-    return '';
+const safeString = (value: unknown): string => {
+  if (typeof value !== "string") {
+    return "";
   }
   return value.trim();
 };
 /* =========================================
    NORMALIZE CONFIDENCE
 \========================================= */
-const safeConfidence = (
-  value: unknown
-): AIConfidence => {
-  if (
-    value === 'high' ||
-    value === 'medium' ||
-    value === 'low'
-  ) {
+const safeConfidence = (value: unknown): AIConfidence => {
+  if (value === "high" || value === "medium" || value === "low") {
     return value;
   }
-  return 'low';
+  return "low";
 };
 /* =========================================
    MAP GEMINI MEDICINE TO EXISTING UI
 \========================================= */
-const mapAIMedicine = (
-  medicine: any,
-  index: number
-): Medicine => {
-  const confidenceLevel =
-    safeConfidence(
-      medicine?.confidence
-    );
-  const name =
-    safeString(
-      medicine?.name
-    );
-  const strength =
-    safeString(
-      medicine?.strength
-    );
-  const dosageForm =
-    safeString(
-      medicine?.form
-    );
-  const dosage =
-    safeString(
-      medicine?.dosage
-    );
-  const frequency =
-    safeString(
-      medicine?.frequency
-    );
-  const duration =
-    safeString(
-      medicine?.duration
-    );
-  const instruction =
-    safeString(
-      medicine?.instructions
-    );
+const mapAIMedicine = (medicine: any, index: number): Medicine => {
+  const confidenceLevel = safeConfidence(medicine?.confidence);
+  const name = safeString(medicine?.name);
+  const strength = safeString(medicine?.strength);
+  const dosageForm = safeString(medicine?.form);
+  const dosage = safeString(medicine?.dosage);
+  const frequency = safeString(medicine?.frequency);
+  const duration = safeString(medicine?.duration);
+  const instruction = safeString(medicine?.instructions);
   /*
     Respect backend review flag.
     If the medicine name itself is missing,
     review is automatically required.
   */
-  const needsReview =
-    medicine?.needs_review === true ||
-    !name;
+  const needsReview = medicine?.needs_review === true || !name;
   return {
     id: index + 1,
     name,
@@ -649,10 +598,7 @@ const mapAIMedicine = (
     frequency,
     duration,
     instruction,
-    confidence:
-      confidenceToNumber(
-        confidenceLevel
-      ),
+    confidence: confidenceToNumber(confidenceLevel),
     confidenceLevel,
     needsReview,
     /*
@@ -661,90 +607,55 @@ const mapAIMedicine = (
       The full original OCR transcription
       remains visible below the cards.
     */
-    rawText: '',
+    rawText: "",
     quantity: (() => {
       const value = medicine?.quantity;
-      const numberValue = typeof value === 'number' ? value : (typeof value === 'string' && value.trim() ? Number(value) : NaN);
-      return Number.isInteger(numberValue) && numberValue > 0 && numberValue <= 999 ? numberValue : null;
-    })()
+      const numberValue =
+        typeof value === "number"
+          ? value
+          : typeof value === "string" && value.trim()
+            ? Number(value)
+            : NaN;
+      return Number.isInteger(numberValue) &&
+        numberValue > 0 &&
+        numberValue <= 999
+        ? numberValue
+        : null;
+    })(),
   };
 };
 /* =========================================
    LOAD SAVED RESULT
 \========================================= */
 onMounted(() => {
-  const savedText =
-    sessionStorage.getItem(
-      'mediscan_ocr_text'
-    );
-  const savedAIResult =
-    sessionStorage.getItem(
-      'mediscan_ai_result'
-    );
-  const savedFileName =
-    sessionStorage.getItem(
-      'mediscan_scan_filename'
-    );
-  const savedScanDate =
-    sessionStorage.getItem(
-      'mediscan_scan_date'
-    );
+  const savedText = sessionStorage.getItem("mediscan_ocr_text");
+  const savedAIResult = sessionStorage.getItem("mediscan_ai_result");
+  const savedFileName = sessionStorage.getItem("mediscan_scan_filename");
+  const savedScanDate = sessionStorage.getItem("mediscan_scan_date");
   /* -------------------------------------
      RAW TESSERACT OCR
   ------------------------------------- */
   if (savedText) {
-    ocrText.value =
-      savedText.trim();
+    ocrText.value = savedText.trim();
   }
   /* -------------------------------------
      GEMINI STRUCTURED RESULT
   ------------------------------------- */
   if (savedAIResult) {
     try {
-      const parsed:
-        AIAnalysis =
-        JSON.parse(
-          savedAIResult
-        );
-      aiResultAvailable.value =
-        true;
-      if (
-        typeof parsed
-          ?.prescription_detected ===
-        'boolean'
-      ) {
-        prescriptionDetected.value =
-          parsed.prescription_detected;
+      const parsed: AIAnalysis = JSON.parse(savedAIResult);
+      aiResultAvailable.value = true;
+      if (typeof parsed?.prescription_detected === "boolean") {
+        prescriptionDetected.value = parsed.prescription_detected;
       }
-      patientName.value =
-        safeString(
-          parsed?.patient_name
-        );
-      doctorName.value =
-        safeString(
-          parsed?.doctor_name
-        );
-      prescriptionDate.value =
-        safeString(
-          parsed?.prescription_date
-        );
-      if (
-        Array.isArray(
-          parsed?.warnings
-        )
-      ) {
-        aiWarnings.value =
-          parsed.warnings
-            .filter(
-              warning =>
-                typeof warning ===
-                'string'
-            )
-            .map(
-              warning =>
-                warning.trim()
-            )
-            .filter(Boolean);
+      patientName.value = safeString(parsed?.patient_name);
+      doctorName.value = safeString(parsed?.doctor_name);
+      prescriptionDate.value = safeString(parsed?.prescription_date);
+      if (Array.isArray(parsed?.warnings)) {
+        aiWarnings.value = parsed.warnings
+          .filter((warning) => typeof warning === "string")
+          .map((warning) => warning.trim())
+          .filter(Boolean);
       }
       /*
         If for some reason the OCR key is
@@ -754,14 +665,8 @@ onMounted(() => {
         OCR transcription rather than
         rewriting it.
       */
-      if (
-        !ocrText.value &&
-        typeof parsed
-          ?.extracted_text ===
-          'string'
-      ) {
-        ocrText.value =
-          parsed.extracted_text.trim();
+      if (!ocrText.value && typeof parsed?.extracted_text === "string") {
+        ocrText.value = parsed.extracted_text.trim();
       }
       /*
         THIS IS THE IMPORTANT CHANGE.
@@ -769,32 +674,16 @@ onMounted(() => {
         We use Gemini's structured medicines
         directly.
       */
-      if (
-        Array.isArray(
-          parsed?.medicines
-        )
-      ) {
-        medicines.value =
-          parsed.medicines.map(
-            (
-              medicine,
-              index
-            ) =>
-              mapAIMedicine(
-                medicine,
-                index
-              )
-          );
+      if (Array.isArray(parsed?.medicines)) {
+        medicines.value = parsed.medicines.map((medicine, index) =>
+          mapAIMedicine(medicine, index),
+        );
       } else {
         medicines.value = [];
       }
     } catch (error) {
-      console.error(
-        'Unable to read MediScan AI result:',
-        error
-      );
-      aiResultAvailable.value =
-        false;
+      console.error("Unable to read MediScan AI result:", error);
+      aiResultAvailable.value = false;
       medicines.value = [];
     }
   }
@@ -802,47 +691,30 @@ onMounted(() => {
      FILE NAME
   ------------------------------------- */
   if (savedFileName) {
-    fileName.value =
-      savedFileName;
+    fileName.value = savedFileName;
   }
   /* -------------------------------------
      SCAN DATE
   ------------------------------------- */
   if (savedScanDate) {
-    const date =
-      new Date(
-        savedScanDate
-      );
-    if (
-      !Number.isNaN(
-        date.getTime()
-      )
-    ) {
-      scanDate.value =
-        date.toLocaleString(
-          'en-PH',
-          {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric',
-            hour: 'numeric',
-            minute: '2-digit'
-          }
-        );
+    const date = new Date(savedScanDate);
+    if (!Number.isNaN(date.getTime())) {
+      scanDate.value = date.toLocaleString("en-PH", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+        hour: "numeric",
+        minute: "2-digit",
+      });
     }
   }
 });
 /* =========================================
    HAS OCR TEXT
 \========================================= */
-const hasDetectedText =
-  computed(() => {
-    return (
-      ocrText.value
-        .trim()
-        .length > 0
-    );
-  });
+const hasDetectedText = computed(() => {
+  return ocrText.value.trim().length > 0;
+});
 /* =========================================
    OVERALL AI READING CONFIDENCE
    This is an average of the UI mappings:
@@ -851,345 +723,244 @@ const hasDetectedText =
    low    = 40
    It is NOT medical correctness.
 \========================================= */
-const overallConfidence =
-  computed(() => {
-    if (
-      medicines.value.length ===
-      0
-    ) {
-      return 0;
-    }
-    const total =
-      medicines.value.reduce(
-        (
-          sum,
-          medicine
-        ) =>
-          sum +
-          medicine.confidence,
-        0
-      );
-    return Math.round(
-      total /
-        medicines.value.length
-    );
-  });
+const overallConfidence = computed(() => {
+  if (medicines.value.length === 0) {
+    return 0;
+  }
+  const total = medicines.value.reduce(
+    (sum, medicine) => sum + medicine.confidence,
+    0,
+  );
+  return Math.round(total / medicines.value.length);
+});
 /* =========================================
    REVIEW COUNT
 \========================================= */
-const medicinesNeedingReview =
-  computed(() => {
-    return medicines.value.filter(
-      medicine =>
-        medicine.needsReview
-    ).length;
-  });
+const medicinesNeedingReview = computed(() => {
+  return medicines.value.filter((medicine) => medicine.needsReview).length;
+});
 /* =========================================
    CONFIDENCE DISPLAY
 \========================================= */
-const confidenceLabel = (
-  confidence: number
-) => {
-  if (
-    confidence >= 80
-  ) {
-    return 'High';
+const confidenceLabel = (confidence: number) => {
+  if (confidence >= 80) {
+    return "High";
   }
-  if (
-    confidence >= 55
-  ) {
-    return 'Needs Review';
+  if (confidence >= 55) {
+    return "Needs Review";
   }
-  return 'Low';
+  return "Low";
 };
-const confidenceClass = (
-  confidence: number
-) => {
-  if (
-    confidence >= 80
-  ) {
-    return 'high';
+const confidenceClass = (confidence: number) => {
+  if (confidence >= 80) {
+    return "high";
   }
-  if (
-    confidence >= 55
-  ) {
-    return 'medium';
+  if (confidence >= 55) {
+    return "medium";
   }
-  return 'low';
+  return "low";
 };
 /* =========================================
    EDIT ALL
 \========================================= */
-const editAllInformation =
-  async () => {
-    if (
-      medicines.value.length ===
-      0
-    ) {
-      const alert =
-        await alertController.create({
-          header:
-            'No Medicine Fields Detected',
-          message:
-            aiResultAvailable.value
-              ? 'MediScan AI did not identify a medicine reliably enough to create an editable medicine card. Review the extracted OCR text and scan again if needed.'
-              : 'No AI-structured medicine result is available. Please scan the prescription again.',
-          buttons: ['OK']
-        });
-      await alert.present();
-      return;
-    }
-    editingMedicine.value =
-      medicines.value[0].id;
-    /*
+const editAllInformation = async () => {
+  if (medicines.value.length === 0) {
+    const alert = await alertController.create({
+      header: "No Medicine Fields Detected",
+      message: aiResultAvailable.value
+        ? "MediScan AI did not identify a medicine reliably enough to create an editable medicine card. Review the extracted OCR text and scan again if needed."
+        : "No AI-structured medicine result is available. Please scan the prescription again.",
+      buttons: ["OK"],
+    });
+    await alert.present();
+    return;
+  }
+  editingMedicine.value = medicines.value[0].id;
+  /*
       Wait until Vue displays the edit area.
     */
-    setTimeout(
-      () => {
-        const firstCard =
-          document.querySelector(
-            '.medicine-card'
-          );
-        firstCard?.scrollIntoView({
-          behavior: 'smooth',
-          block: 'center'
-        });
-      },
-      50
-    );
-  };
+  setTimeout(() => {
+    const firstCard = document.querySelector(".medicine-card");
+    firstCard?.scrollIntoView({
+      behavior: "smooth",
+      block: "center",
+    });
+  }, 50);
+};
 /* =========================================
    CONFIRM REVIEWED INFORMATION
 \========================================= */
 const updateQuantity = (medicine: Medicine, event: Event) => {
   const value = (event.target as HTMLInputElement).value.trim();
-  medicine.quantity = value === '' ? null : Number(value);
+  medicine.quantity = value === "" ? null : Number(value);
 };
-const confirmAndContinue =
-  async () => {
-    /* =========================================
+const confirmAndContinue = async () => {
+  /* =========================================
        VALIDATION
     ========================================= */
-    if (
-      medicines.value.length ===
-      0
-    ) {
-      const alert =
-        await alertController.create({
-          header:
-            'Review Required',
-          message:
-            'No structured medicine information was identified. Review the prescription text or scan the prescription again before confirming.',
-          buttons: ['OK']
-        });
-      await alert.present();
+  if (medicines.value.length === 0) {
+    const alert = await alertController.create({
+      header: "Review Required",
+      message:
+        "No structured medicine information was identified. Review the prescription text or scan the prescription again before confirming.",
+      buttons: ["OK"],
+    });
+    await alert.present();
+    return;
+  }
+  const missingMedicineName = medicines.value.some(
+    (medicine) => !medicine.name.trim(),
+  );
+  if (missingMedicineName) {
+    const alert = await alertController.create({
+      header: "Medicine Name Needs Review",
+      message:
+        "At least one medicine name could not be read reliably. Please compare it with the original prescription and edit the information before confirming.",
+      buttons: ["OK"],
+    });
+    await alert.present();
+    return;
+  }
+  const invalidQuantity = medicines.value.some(
+    (m) =>
+      m.quantity !== null &&
+      m.quantity !== undefined &&
+      m.quantity !== ("" as unknown as number) &&
+      (!Number.isInteger(m.quantity) || m.quantity < 1 || m.quantity > 999),
+  );
+  if (invalidQuantity) {
+    const alert = await alertController.create({
+      header: "Check Quantity",
+      message:
+        "Use a whole number from 1 to 999, or leave quantity blank if the prescription does not specify it.",
+      buttons: ["OK"],
+    });
+    await alert.present();
+    return;
+  }
+  const missingQuantities = medicines.value.filter((m) => m.quantity == null);
+  if (missingQuantities.length > 0) {
+    const alert = await alertController.create({
+      header: "Verify Prescribed Quantities",
+      message: `${missingQuantities.length} medicine(s) have no confirmed quantity. Review the original prescription and enter the quantity if written. You may continue without it, but the quantity must still be verified in Pharmacy.`,
+      buttons: [
+        { text: "Review Quantities", role: "review" },
+        { text: "Continue Without Quantity", role: "continue" },
+      ],
+    });
+    await alert.present();
+    const { role } = await alert.onDidDismiss();
+    if (role !== "continue") {
+      editingMedicine.value = missingQuantities[0].id;
       return;
     }
-    const missingMedicineName =
-      medicines.value.some(
-        (medicine) =>
-          !medicine.name.trim()
-      );
-    if (missingMedicineName) {
-      const alert =
-        await alertController.create({
-          header:
-            'Medicine Name Needs Review',
-          message:
-            'At least one medicine name could not be read reliably. Please compare it with the original prescription and edit the information before confirming.',
-          buttons: ['OK']
-        });
-      await alert.present();
-      return;
-    }
-      const invalidQuantity = medicines.value.some(m =>
-      m.quantity !== null && m.quantity !== undefined && m.quantity !== ('' as unknown as number) &&
-      (!Number.isInteger(m.quantity) || m.quantity < 1 || m.quantity > 999)
-    );
-    if (invalidQuantity) {
-      const alert = await alertController.create({
-        header: 'Check Quantity',
-        message: 'Use a whole number from 1 to 999, or leave quantity blank if the prescription does not specify it.',
-        buttons: ['OK']
-      });
-      await alert.present();
-      return;
-    }
-      const missingQuantities = medicines.value.filter(m => m.quantity == null);
-    if (missingQuantities.length > 0) {
-      const alert = await alertController.create({
-        header: 'Verify Prescribed Quantities',
-        message: `${missingQuantities.length} medicine(s) have no confirmed quantity. Review the original prescription and enter the quantity if written. You may continue without it, but the quantity must still be verified in Pharmacy.`,
-        buttons: [
-          { text: 'Review Quantities', role: 'review' },
-          { text: 'Continue Without Quantity', role: 'continue' }
-        ]
-      });
-      await alert.present();
-      const { role } = await alert.onDidDismiss();
-      if (role !== 'continue') {
-        editingMedicine.value = missingQuantities[0].id;
-        return;
-      }
-    }
-/* =========================================
+  }
+  /* =========================================
        SAVE REVIEWED COPY LOCALLY
     ========================================= */
-    sessionStorage.setItem(
-      'mediscan_detected_medicines',
-      JSON.stringify(
-        medicines.value
-      )
-    );
-    sessionStorage.setItem(
-      'mediscan_reviewed_prescription',
-      JSON.stringify({
-        patient_name:
-          patientName.value || null,
-        doctor_name:
-          doctorName.value || null,
-        prescription_date:
-          prescriptionDate.value ||
-          null,
-        medicines:
-          medicines.value,
-        warnings:
-          aiWarnings.value,
-        reviewed_at:
-          new Date().toISOString()
-      })
-    );
-    /* =========================================
+  sessionStorage.setItem(
+    "mediscan_detected_medicines",
+    JSON.stringify(medicines.value),
+  );
+  sessionStorage.setItem(
+    "mediscan_reviewed_prescription",
+    JSON.stringify({
+      patient_name: patientName.value || null,
+      doctor_name: doctorName.value || null,
+      prescription_date: prescriptionDate.value || null,
+      medicines: medicines.value,
+      warnings: aiWarnings.value,
+      reviewed_at: new Date().toISOString(),
+    }),
+  );
+  /* =========================================
        SAVE TO SUPABASE
     ========================================= */
-    try {
-      /*
+  try {
+    // Attach every saved prescription to the currently signed-in user.
+    const { data: authData, error: authError } = await supabase.auth.getUser();
+    if (authError || !authData.user) {
+      throw new Error("Please sign in again before saving your prescription.");
+    }
+    const currentUserId = authData.user.id;
+
+    /*
         STEP 1:
         Save the prescription.
       */
-      const {
-        data: prescription,
-        error: prescriptionError
-      } =
-        await supabase
-          .from('prescriptions')
-          .insert({
-            patient_name:
-              patientName.value.trim() ||
-              null,
-            doctor_name:
-              doctorName.value.trim() ||
-              null,
-            prescription_date:
-              prescriptionDate.value.trim() ||
-              null,
-            extracted_text:
-              ocrText.value.trim(),
-            scan_method:
-              'MediScan AI Vision + OCR'
-          })
-          .select('id')
-          .single();
-      if (prescriptionError) {
-        throw prescriptionError;
-      }
-      if (!prescription?.id) {
-        throw new Error(
-          'No prescription ID was returned.'
-        );
-      }
-      /*
+    const { data: prescription, error: prescriptionError } = await supabase
+      .from("prescriptions")
+      .insert({
+        user_id: currentUserId,
+        patient_name: patientName.value.trim() || null,
+        doctor_name: doctorName.value.trim() || null,
+        prescription_date: prescriptionDate.value.trim() || null,
+        extracted_text: ocrText.value.trim(),
+        scan_method: "MediScan AI Vision + OCR",
+      })
+      .select("id")
+      .single();
+    if (prescriptionError) {
+      throw prescriptionError;
+    }
+    if (!prescription?.id) {
+      throw new Error("No prescription ID was returned.");
+    }
+    /*
         STEP 2:
         Prepare medicines using the
         prescription ID we just created.
       */
-      const medicineRows =
-        medicines.value.map(
-          (medicine) => ({
-            prescription_id:
-              prescription.id,
-            medicine_name:
-              medicine.name.trim() ||
-              null,
-            dosage_form:
-              medicine.dosageForm.trim() ||
-              null,
-            strength:
-              medicine.strength.trim() ||
-              null,
-            dosage:
-              medicine.dosage.trim() ||
-              null,
-            frequency:
-              medicine.frequency.trim() ||
-              null,
-            duration:
-              medicine.duration.trim() ||
-              null,
-            instructions:
-              medicine.instruction.trim() ||
-              null,
-            confidence:
-              medicine.confidenceLevel,
-            needs_review:
-              medicine.needsReview,
-            quantity: medicine.quantity
-          })
-        );
-      /*
+    const medicineRows = medicines.value.map((medicine) => ({
+      prescription_id: prescription.id,
+      medicine_name: medicine.name.trim() || null,
+      dosage_form: medicine.dosageForm.trim() || null,
+      strength: medicine.strength.trim() || null,
+      dosage: medicine.dosage.trim() || null,
+      frequency: medicine.frequency.trim() || null,
+      duration: medicine.duration.trim() || null,
+      instructions: medicine.instruction.trim() || null,
+      confidence: medicine.confidenceLevel,
+      needs_review: medicine.needsReview,
+      quantity: medicine.quantity,
+    }));
+    /*
         STEP 3:
         Save all medicines.
       */
-      const {
-        error: medicinesError
-      } =
-        await supabase
-          .from(
-            'prescription_medicines'
-          )
-          .insert(
-            medicineRows
-          );
-      if (medicinesError) {
-        /*
+    const { error: medicinesError } = await supabase
+      .from("prescription_medicines")
+      .insert(medicineRows);
+    if (medicinesError) {
+      /*
           Remove the main prescription if
           medicine saving failed so we don't
           leave an incomplete record.
         */
-        await supabase
-          .from('prescriptions')
-          .delete()
-          .eq(
-            'id',
-            prescription.id
-          );
-        throw medicinesError;
-      }
-      /* =========================================
+      await supabase
+        .from("prescriptions")
+        .delete()
+        .eq("id", prescription.id)
+        .eq("user_id", currentUserId);
+      throw medicinesError;
+    }
+    /* =========================================
          SUCCESS
       ========================================= */
-      sessionStorage.setItem(
-        'mediscan_saved_prescription_id',
-        prescription.id
-      );
-      savedPrescriptionId.value = prescription.id;
-      showSavedModal.value = true;
-    } catch (error) {
-      console.error(
-        'Unable to save prescription:',
-        error
-      );
-      const errorAlert =
-        await alertController.create({
-          header:
-            'Unable to Save',
-          message:
-            'MediScan could not save this prescription to the database. Your current scan is still available, so you can try again.',
-          buttons: ['OK']
-        });
-      await errorAlert.present();
-    }
-  };
+    sessionStorage.setItem("mediscan_saved_prescription_id", prescription.id);
+    savedPrescriptionId.value = prescription.id;
+    showSavedModal.value = true;
+  } catch (error) {
+    console.error("Unable to save prescription:", error);
+    const errorAlert = await alertController.create({
+      header: "Unable to Save",
+      message:
+        "MediScan could not save this prescription to the database. Your current scan is still available, so you can try again.",
+      buttons: ["OK"],
+    });
+    await errorAlert.present();
+  }
+};
 /* =========================================
    BACK
 \========================================= */
@@ -1200,30 +971,14 @@ const goBack = () => {
    SCAN AGAIN
 \========================================= */
 const scanAgain = () => {
-  sessionStorage.removeItem(
-    'mediscan_ocr_text'
-  );
-  sessionStorage.removeItem(
-    'mediscan_ai_result'
-  );
-  sessionStorage.removeItem(
-    'mediscan_scan_filename'
-  );
-  sessionStorage.removeItem(
-    'mediscan_scan_date'
-  );
-  sessionStorage.removeItem(
-    'mediscan_ocr_method'
-  );
-  sessionStorage.removeItem(
-    'mediscan_detected_medicines'
-  );
-  sessionStorage.removeItem(
-    'mediscan_reviewed_prescription'
-  );
-  router.push(
-    '/scan-prescription'
-  );
+  sessionStorage.removeItem("mediscan_ocr_text");
+  sessionStorage.removeItem("mediscan_ai_result");
+  sessionStorage.removeItem("mediscan_scan_filename");
+  sessionStorage.removeItem("mediscan_scan_date");
+  sessionStorage.removeItem("mediscan_ocr_method");
+  sessionStorage.removeItem("mediscan_detected_medicines");
+  sessionStorage.removeItem("mediscan_reviewed_prescription");
+  router.push("/scan-prescription");
 };
 </script>
 <style scoped>
@@ -1887,9 +1642,7 @@ const scanAgain = () => {
 }
 @media (max-width: 700px) {
   .page-container {
-    padding:
-      calc(22px + env(safe-area-inset-top))
-      16px
+    padding: calc(22px + env(safe-area-inset-top)) 16px
       calc(40px + env(safe-area-inset-bottom));
   }
   .top-header {
@@ -1966,25 +1719,165 @@ const scanAgain = () => {
   }
 }
 /* Saved confirmation — custom responsive modal */
-.saved-overlay { position: fixed; inset: 0; z-index: 10000; background: rgba(10,35,29,.58); display: flex; align-items: center; justify-content: center; padding: 18px; overflow-y: auto; }
-.saved-dialog { width: min(100%, 490px); max-height: min(90vh, 760px); overflow-y: auto; background: #fff; color: #16372e; border-radius: 24px; padding: 30px; box-shadow: 0 22px 70px rgba(0,0,0,.18); text-align: center; }
-.saved-icon { width: 66px; height: 66px; border-radius: 50%; margin: 0 auto 12px; display: grid; place-items: center; background: #ddf8ee; color: #009b72; font-size: 40px; }
-.saved-eyebrow { color: #008c69; font-size: 10px; font-weight: 800; letter-spacing: 1.4px; }
-.saved-dialog h2 { font-size: 27px; font-weight: 800; margin: 7px 0; color: #16372e; }
-.saved-subtitle { color: #667e76; font-size: 14px; line-height: 1.55; margin: 0 auto 18px; max-width: 360px; }
-.saved-summary { text-align: left; border: 1px solid #e1eee9; border-radius: 16px; padding: 14px; background: #f8fcfa; }
-.saved-summary-head { display: flex; justify-content: space-between; align-items: center; font-size: 13px; font-weight: 700; margin-bottom: 7px; }
-.saved-summary-head strong { background: #ddf8ee; color: #008c69; border-radius: 20px; padding: 3px 9px; }
-.saved-medicine { display: flex; align-items: center; gap: 10px; padding: 10px 0; border-top: 1px solid #e5efeb; }
-.saved-pill-icon { flex: 0 0 34px; height: 34px; border-radius: 10px; background: #e2f7ef; color: #008e6b; display: grid; place-items: center; font-size: 19px; }
-.saved-medicine-info { min-width: 0; flex: 1; display: flex; flex-direction: column; gap: 3px; }
-.saved-medicine-info strong { font-size: 13px; overflow-wrap: anywhere; }
-.saved-medicine-info small { font-size: 11px; color: #71847e; }
-.saved-quantity { font-size: 11px; font-weight: 700; color: #008d68; white-space: nowrap; }
-.saved-note { display: flex; align-items: flex-start; gap: 7px; text-align: left; color: #74857f; font-size: 11px; line-height: 1.5; margin: 13px 0 18px; }
-.saved-note ion-icon { flex-shrink: 0; font-size: 16px; color: #009b72; }
-.saved-primary, .saved-secondary { width: 100%; min-height: 46px; border-radius: 12px; font-size: 13px; font-weight: 750; cursor: pointer; }
-.saved-primary { background: #00966f; color: #fff; display: flex; align-items: center; justify-content: center; gap: 9px; }
-.saved-secondary { background: #fff; color: #008b69; border: 1px solid #cce8de; margin-top: 9px; }
-@media (max-width: 480px) { .saved-dialog { padding: 23px 17px; border-radius: 20px; } .saved-dialog h2 { font-size: 24px; } .saved-medicine-info strong { font-size: 12px; } }
+.saved-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  background: rgba(10, 35, 29, 0.58);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+  overflow-y: auto;
+}
+.saved-dialog {
+  width: min(100%, 490px);
+  max-height: min(90vh, 760px);
+  overflow-y: auto;
+  background: #fff;
+  color: #16372e;
+  border-radius: 24px;
+  padding: 30px;
+  box-shadow: 0 22px 70px rgba(0, 0, 0, 0.18);
+  text-align: center;
+}
+.saved-icon {
+  width: 66px;
+  height: 66px;
+  border-radius: 50%;
+  margin: 0 auto 12px;
+  display: grid;
+  place-items: center;
+  background: #ddf8ee;
+  color: #009b72;
+  font-size: 40px;
+}
+.saved-eyebrow {
+  color: #008c69;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1.4px;
+}
+.saved-dialog h2 {
+  font-size: 27px;
+  font-weight: 800;
+  margin: 7px 0;
+  color: #16372e;
+}
+.saved-subtitle {
+  color: #667e76;
+  font-size: 14px;
+  line-height: 1.55;
+  margin: 0 auto 18px;
+  max-width: 360px;
+}
+.saved-summary {
+  text-align: left;
+  border: 1px solid #e1eee9;
+  border-radius: 16px;
+  padding: 14px;
+  background: #f8fcfa;
+}
+.saved-summary-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 7px;
+}
+.saved-summary-head strong {
+  background: #ddf8ee;
+  color: #008c69;
+  border-radius: 20px;
+  padding: 3px 9px;
+}
+.saved-medicine {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 0;
+  border-top: 1px solid #e5efeb;
+}
+.saved-pill-icon {
+  flex: 0 0 34px;
+  height: 34px;
+  border-radius: 10px;
+  background: #e2f7ef;
+  color: #008e6b;
+  display: grid;
+  place-items: center;
+  font-size: 19px;
+}
+.saved-medicine-info {
+  min-width: 0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.saved-medicine-info strong {
+  font-size: 13px;
+  overflow-wrap: anywhere;
+}
+.saved-medicine-info small {
+  font-size: 11px;
+  color: #71847e;
+}
+.saved-quantity {
+  font-size: 11px;
+  font-weight: 700;
+  color: #008d68;
+  white-space: nowrap;
+}
+.saved-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 7px;
+  text-align: left;
+  color: #74857f;
+  font-size: 11px;
+  line-height: 1.5;
+  margin: 13px 0 18px;
+}
+.saved-note ion-icon {
+  flex-shrink: 0;
+  font-size: 16px;
+  color: #009b72;
+}
+.saved-primary,
+.saved-secondary {
+  width: 100%;
+  min-height: 46px;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 750;
+  cursor: pointer;
+}
+.saved-primary {
+  background: #00966f;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+}
+.saved-secondary {
+  background: #fff;
+  color: #008b69;
+  border: 1px solid #cce8de;
+  margin-top: 9px;
+}
+@media (max-width: 480px) {
+  .saved-dialog {
+    padding: 23px 17px;
+    border-radius: 20px;
+  }
+  .saved-dialog h2 {
+    font-size: 24px;
+  }
+  .saved-medicine-info strong {
+    font-size: 12px;
+  }
+}
 </style>

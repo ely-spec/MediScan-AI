@@ -1,11 +1,9 @@
-/* For information on how to create your own theme, please refer to:
-http://ionicframework.com/docs/theming/ */
-
 
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap');
 
 :root {
   --ion-font-family: 'Poppins', sans-serif;
+  font-family: 'Poppins', sans-serif;
 }
 
 html {
@@ -18,10 +16,14 @@ ion-content,
 ion-button,
 ion-input,
 ion-label,
+ion-title,
+ion-text,
 button,
 input,
 textarea,
-select {
+select,
+h1, h2, h3, h4, h5, h6,
+p, span {
   font-family: 'Poppins', sans-serif;
 }
 

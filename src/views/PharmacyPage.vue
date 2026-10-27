@@ -706,6 +706,8 @@ import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 
 import { supabase } from "../utils/supabase";
+import { Capacitor } from "@capacitor/core";
+import { Geolocation } from "@capacitor/geolocation";
 
 type Pharmacy = {
 
@@ -1616,48 +1618,51 @@ watch(activeTab, async (tab) => {
 
 });
 
-function getLocation(): Promise<{ lat: number; lon: number }> {
+async function getLocation(): Promise<{ lat: number; lon: number }> {
+  if (Capacitor.isNativePlatform()) {
+    try {
+      // Request Android runtime permission when the user taps Find Pharmacies.
+      const permission = await Geolocation.requestPermissions();
+      if (permission.location !== "granted" && permission.coarseLocation !== "granted") {
+        throw new Error("Location permission denied. Allow location in Android app settings and try again.");
+      }
 
-  return new Promise((resolve, reject) => {
-
-    if (!navigator.geolocation) {
-
-      reject(new Error("Location is not supported on this device or browser."));
-
-      return;
-
+      const position = await Geolocation.getCurrentPosition({
+        enableHighAccuracy: permission.location === "granted",
+        timeout: 20000,
+        maximumAge: 60000,
+      });
+      return { lat: position.coords.latitude, lon: position.coords.longitude };
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error);
+      if (/denied|permission/i.test(message)) {
+        throw new Error("Location permission denied. Go to Settings > Apps > MediScan-AI > Permissions > Location, allow access, then try again.");
+      }
+      if (/disabled|unavailable|location services/i.test(message)) {
+        throw new Error("Location unavailable. Turn on Location/GPS on your phone and try again.");
+      }
+      throw new Error("Unable to get phone location. Check Location/GPS and try again.");
     }
+  }
 
+  // Keep browser preview working without requiring the native plugin.
+  return new Promise((resolve, reject) => {
+    if (!navigator.geolocation) {
+      reject(new Error("Location is not supported on this device or browser."));
+      return;
+    }
     navigator.geolocation.getCurrentPosition(
-
-      (p) => resolve({ lat: p.coords.latitude, lon: p.coords.longitude }),
-
-      (e) =>
-
-        reject(
-
-          new Error(
-
-            e.code === 1
-
-              ? "Location permission denied. Allow location access and try again."
-
-              : e.code === 2
-
-                ? "Location unavailable. Turn on GPS and try again."
-
-                : "Location request timed out. Please try again.",
-
-          ),
-
-        ),
-
-      { enableHighAccuracy: true, timeout: 15000, maximumAge: 60000 },
-
+      (position) => resolve({ lat: position.coords.latitude, lon: position.coords.longitude }),
+      (error) => reject(new Error(
+        error.code === 1
+          ? "Location permission denied. Allow location access and try again."
+          : error.code === 2
+            ? "Location unavailable. Turn on GPS and try again."
+            : "Location request timed out. Please try again."
+      )),
+      { enableHighAccuracy: true, timeout: 15000, maximumAge: 60000 }
     );
-
   });
-
 }
 
 function distanceKm(

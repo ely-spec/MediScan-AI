@@ -1388,3 +1388,12 @@ button:focus-visible, .profile-circle:focus-visible { outline: 3px solid #26bba0
   .live-clock { font-size: 10px; }
 }
 </style>
+
+<!-- Android status-bar clearance: align Home with Medicine page. -->
+<style scoped>
+@media (max-width: 700px) {
+  .page-container {
+    padding-top: calc(25px + env(safe-area-inset-top, 0px));
+  }
+}
+</style>

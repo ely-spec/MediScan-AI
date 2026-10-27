@@ -1593,3 +1593,11 @@ onMounted(async () => {
   .page-header h1 { font-size: 28px; }
 }
 </style>
+<!-- Comfortable mobile search field sizing; search behavior unchanged. -->
+<style scoped>
+@media (max-width: 700px) {
+  .search-box { min-height: 52px; height: 52px; padding-inline: 17px; gap: 13px; border-radius: 15px; }
+  .search-box > ion-icon { font-size: 26px; min-width: 26px; flex-shrink: 0; }
+  .search-box input { min-width: 0; font-size: 16px; }
+}
+</style>
